@@ -1,12 +1,7 @@
 <?php
+header("Content-Type: text/html; charset=utf-8");
 session_start();
-
-$mysqli = new mysqli('localhost', 'root', '', 'burgers'); //устанавливаем соединение
-if (mysqli_connect_errno()) { //проверк на ошибку
-    printf('Ошибка соединения: ', mysqli_connect_errno());
-    exit();
-}
-
+include ('/var/www/burgers.advecto.ru/dbconnect.php');
 $rqs = $_REQUEST;
 global  $email, $name;
 $email = $rqs['email'];
@@ -47,7 +42,6 @@ if ($registrationCheck->num_rows === 0) {
 
 }
 
-echo $id[0][1];
 //записываем данные в сессию
 $_SESSION = [
     'id' => $id[0][1],

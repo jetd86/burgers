@@ -1,10 +1,6 @@
-<?php
+﻿<?php
 session_start();
-$mysqli = new mysqli('localhost', 'root', '', 'burgers'); //устанавливаем соединение
-if (mysqli_connect_errno()) { //проверк на ошибку
-    printf('Ошибка соединения: ', mysqli_connect_errno());
-    exit();
-}
+include ('/var/www/burgers.advecto.ru/dbconnect.php');
 
 $_POST[] = ['burgerName' => ' Dark Beef Burger 500р '];
 global $id;
@@ -52,11 +48,8 @@ if (!empty($_SESSION)) {
 //получаем количество всех заказов, ID из базы данных AUTO_INCREMENT
 function getUserUnicOrderNumber()
 {
-    $mysqli = new mysqli('localhost', 'root', '', 'burgers'); //устанавливаем соединение
-    if (mysqli_connect_errno()) { //проверк на ошибку
-        printf('Ошибка соединения: ', mysqli_connect_errno());
-        exit();
-    }
+    include ('/var/www/burgers.advecto.ru/dbconnect.php');
+
     $sql = "SELECT id FROM orders";
     $sqlResult = $mysqli->query($sql);
     $orderID = $sqlResult->fetch_all();
@@ -68,19 +61,16 @@ $orderNumber = getUserUnicOrderNumber();
 
 
 
-//добавляем в таблицу users все заказы пользователя.
-echo $id;
+//добавляем в таблицу users в поле allOrdersUser все заказы пользователя.
 $sql = "UPDATE `users` SET `allOrdersUser` = '$allUserOrders' WHERE `users`.`id` = $id;";
 $mysqli->query($sql);
 
 
 //сохраняем заказ пользователя в файл.
-//создаем файл
+//сделал по быстрому, можно и лучше, но времени мало, нужно изучать ООП
 $orderFullData = 'Номер заказа '. $orderNumber . '; ' . ' ' . $burgerName . '; ' .' Адрес доставки: ' .$street .$home . $flat . $floor. '; Комментарии: ' . $comments . ' Оплата картой: ' . $callback;
-
 file_put_contents('orders/userorder' . $orderNumber.'.txt', $orderFullData); //записываем в файл
 
-//file_put_contents()
 
 ?>
 

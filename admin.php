@@ -1,10 +1,8 @@
 <?php
-$mysqli = new mysqli('localhost', 'root', '', 'burgers'); //устанавливаем соединение
-if (mysqli_connect_errno()) { //проверк на ошибку
-    printf('Ошибка соединения: ', mysqli_connect_errno());
-    exit();
-}
-$sql = "SELECT * FROM users";
+header("Content-Type: text/html; charset=utf-8");
+include ('/var/www/burgers.advecto.ru/dbconnect.php');
+
+$sql = "SELECT id, name, email, phone, allOrdersUser FROM users";
 $data = $mysqli->query($sql);
 $Users = $data->fetch_all();
 
@@ -16,11 +14,7 @@ $orders = $dataOrder->fetch_all();
 
 function getUserUnicOrderNumber()
 {
-    $mysqli = new mysqli('localhost', 'root', '', 'burgers'); //устанавливаем соединение
-    if (mysqli_connect_errno()) { //проверк на ошибку
-        printf('Ошибка соединения: ', mysqli_connect_errno());
-        exit();
-    }
+    include ('dbconnect.php');
     $sql = "SELECT id FROM orders";
     $sqlResult = $mysqli->query($sql);
     $orderID = $sqlResult->fetch_all();
@@ -54,9 +48,10 @@ $orderNumber = getUserUnicOrderNumber();
                 <th>Все заказы пользователя</th>
             </tr>
             <?php
+            echo count($Users);
             foreach ($Users as $v) {
                 echo '<tr>';
-                for ($i = 0; $i <= count($Users); $i++) {
+                for ($i = 0; $i < count($Users)-1; $i++) {
                     echo '<td> ' . $v[$i] . '</td>';
                 }
                 echo '</tr>';

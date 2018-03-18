@@ -1,6 +1,6 @@
 <?php
 session_start();
-include ('functions.php');
+include ('/var/www/burgers.advecto.ru/dbconnect.php');
 ?>
 <!DOCTYPE html>
 <html lang="ru">

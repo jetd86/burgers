@@ -78,7 +78,7 @@ file_put_contents('orders/userorder' . $orderNumber.'.txt', $orderFullData); //�
 
 
 <?php if (isset($makeOrder)) { ?>
-    <div style="display:block; margin:0 auto; width: 600px; text-align: center;">
+    <div style="display:block; margin:0 auto; text-align: center;">
     <div>
         <h1><?php echo $makeOrder ?></h1>
         <h2>Заказ №<?php echo $orderNumber; ?></h2>
@@ -102,4 +102,58 @@ file_put_contents('orders/userorder' . $orderNumber.'.txt', $orderFullData); //�
 
 <?php }
 
+
+$ordersSql = "SELECT * FROM orders WHERE userID='$id'";
+$dataOrder = $mysqli->query($ordersSql);
+$orders = $dataOrder->fetch_all();
+
 ?>
+
+<!doctype html>
+<html lang="ru" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/main.min.css">
+    <title>Document</title>
+</head>
+<body>
+<section>
+    <div class="seredina">
+        <h2>Все заказы сделанные вами</h2>
+        <table class="table_blur">
+            <tbody>
+            <tr>
+                <th>id</th>
+                <th>userId</th>
+                <th>burgerName</th>
+                <th>Улица</th>
+                <th>Дом</th>
+                <th>Корпус</th>
+                <th>Квартира</th>
+                <th>Этаж</th>
+                <th>Комментарии</th>
+                <th>Нужна сдача</th>
+                <th>Оплата картой</th>
+                <th>Звонок оператора</th>
+                <th>Дата заказа</th>
+            </tr>
+            <?php
+            foreach ($orders as $v) {
+                echo '<tr>';
+                for ($i = 0; $i < 13; $i++) {
+                    echo '<td> ' . $v[$i] . '</td>';
+                }
+                echo '</tr>';
+            }
+            ?>
+            </tbody>
+        </table>
+    </div>
+
+</section>
+
+</body>
+</html>

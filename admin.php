@@ -48,7 +48,6 @@ $orderNumber = getUserUnicOrderNumber();
                 <th>Все заказы пользователя</th>
             </tr>
             <?php
-            echo count($Users);
             foreach ($Users as $v) {
                 echo '<tr>';
                 for ($i = 0; $i < count($Users)-1; $i++) {
